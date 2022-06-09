@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    <link href="~/lib/bootstrap4/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale = 1.0" />
+    <title>@ViewBag.Title</title>
+
+    <!--<link href="~/css/secondsite.css" rel="stylesheet" />-->
+    <!--<link href="~/css/thirdsite.css" rel="stylesheet" />-->
+    <link href="~/css/fourthsite.css" rel="stylesheet" />
+
+    <meta name="description" content="@ViewBag.Description" />
+    <meta name="keywords" content="@ViewBag.Keywords" />
+
+
+</head>
+<body>
+    <div>
+        <nav>
+
+            <a asp-controller="Home" asp-action="Index"> Home</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-category="Programming">Programming</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-category="Photography">Photography</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-category="Travel">Travel</a>
+
+
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Panel" asp-action="Index"> Admin Panel</a>
+
+                }
+                <a asp-controller="Auth" asp-action="Logout">Logout</a>
+            }
+            else
+            {
+
+                <a asp-controller="Auth" asp-action="Login">Sign In</a>
+            }
+
+        </nav>
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+    @RenderSection("scripts", false);
+</body>
+</html>

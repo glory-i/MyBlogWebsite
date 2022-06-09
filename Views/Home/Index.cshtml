@@ -1,0 +1,155 @@
+﻿@model IndexViewModel
+@{
+    //
+}
+@{
+    ViewBag.Title = "Blog Website";
+    ViewBag.Description = "This Blog has everything";
+    ViewBag.Keywords = "blog programming travel photography ";
+}
+@*<h2>THIS IS OUR HOME PAGE</h2>
+    <img src="~/content/static/pictureforblog.jpg" />
+
+*@
+
+
+<div class="main-img">
+
+
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <span class="title"> WELCOME TO THE AMAZING BLOG SITE @User.Identity.Name</span>
+
+
+    }
+    else
+    {
+        <p class="title"> AMAZING BLOG SITE</p>
+    }
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <form asp-controller="Home" asp-action="Index" method="get">
+        <input type="hidden" name="pageNumber" value="@Model.PageNumber" />
+        <input type="hidden" name="category" value="@Model.Category" />
+        <input class="search" type="text" name="search" placeholder="Search Blog" value="@Model.Search" />
+    </form>
+    
+
+
+
+</div>
+
+@if (Model.Posts.ToList().Count < 1)
+{
+    <h3 style="text-align: center;">NO POSTS MATCH YOUR SEARCH</h3>
+}
+<br /><br /><br />
+
+<h3 style="text-align: center; color:darkred">
+    SOME POPULAR POSTS YOU MIGHT LIKE...
+</h3>
+
+@{
+    await Html.RenderPartialAsync("_PopularPosts", Model.PopularPosts);
+}
+<div class="container">
+    @*<ul>
+            @foreach (var post in Model)
+            {
+                <li>
+                    <a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">
+                        @post.Title
+                    </a>
+
+                </li>
+
+            }
+
+        </ul>
+    *@
+
+
+    @foreach (var post in Model.Posts)
+    {
+
+        var image_path = $"/Image/{post.Image}";
+        <a class="post" asp-controller="Home" asp-action="IncrementPostView" asp-route-id="@post.Id"
+           asp-route-username="@User.Identity.Name">
+            <img src="@image_path" />
+
+            <span class="title">
+                @post.Title
+            </span>
+
+        </a>
+
+    }
+    <div class="pages">
+        @if (Model.PageNumber > 1 && Model.Posts.ToList().Count >= 1)
+        {
+            <a asp-controller="Home" asp-action="Index"
+               asp-route-pageNumber="@( Model.PageNumber - 1 )" asp-route-category="@Model.Category"
+               asp-route-search="@Model.Search">
+                Previous Page
+            </a>
+
+        }
+        @{
+            //this is for adding like 1,2,3,4,5 at the bottom so we can navigate to a specific page
+            //instead of only previous and next
+        }
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            string activeNumber = (i == Model.PageNumber) ? "active" : "";
+            <a class=@activeNumber asp-controller="Home" asp-action="Index"
+               asp-route-pageNumber="@i" asp-route-category="@Model.Category" asp-route-search="@Model.Search">
+                @i
+            </a>
+
+        }
+
+        @if (Model.NextPage)
+        {
+            <a asp-controller="Home" asp-action="Index"
+               asp-route-pageNumber="@( Model.PageNumber + 1 )" asp-route-category="@Model.Category"
+               asp-route-search="@Model.Search">
+                Next Page
+            </a>
+
+        }
+
+
+
+    </div>
+</div>
+
+
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+-->
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+    .carousel-inner {
+        width: auto;
+        height: 300px;
+        max-height: 500px !important;
+    }
+
+    .carousel-content {
+        color: black;
+        display: flex;
+        text-align: center;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.carousel').carousel();
+    });</script>

@@ -1,0 +1,51 @@
+﻿@model RegisterViewModel
+@{
+    // remember what i said about asp.for to bind properties of classes to inout values of fields in our html page
+}
+@{
+    //note the asp for is for binding input values we receive from html forms to property values of our c sharp classes
+}
+
+<form class="sign-in-form" asp-controller="Auth" asp-action="Register" method="post">
+    <div>
+        <label>Email</label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div>
+        <label>Blog Username</label>
+        <input asp-for="BlogUsername" />
+        <!--<span asp-validation-for="Email"></span>-->
+    </div>
+
+
+    <div>
+        <label>Password</label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+
+    </div>
+
+    <div>
+        <label>Confirm Password</label>
+        <input asp-for="ConfirmPassword" />
+        <span asp-validation-for="ConfirmPassword"></span>
+
+    </div>
+    <input type="submit" value="Sign Up" />
+</form>
+
+@if (Model.UsernameInUse)
+{
+    
+    await Html.RenderPartialAsync("_SameUsername");
+
+}
+
+@if (Model.EmailInUse)
+{
+    await Html.RenderPartialAsync("_SameEmail");
+}
+
+

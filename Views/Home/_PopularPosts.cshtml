@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Post>
+<div class="container">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="4000" data-pause="hover">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+            <li data-target="#myCarousel" data-slide-to="4"></li>
+            <li data-target="#myCarousel" data-slide-to="5"></li>
+            <li data-target="#myCarousel" data-slide-to="6"></li>
+            <li data-target="#myCarousel" data-slide-to="7"></li>
+            <li data-target="#myCarousel" data-slide-to="8"></li>
+            <li data-target="#myCarousel" data-slide-to="9"></li>
+
+        </ol>
+
+        <div class="carousel-inner" role="listbox">
+            <!-- Wrapper for slides -->
+            @if (Model.Any())
+            {
+                Post p = Model.ToList()[0];
+                var image_path = $"/Image/{p.Image}";
+                <div class="item active">
+                    <div class="carousel-content">
+                        <div style="margin: 0 auto">
+
+                            <a class="post" asp-controller="Home" asp-action="IncrementPostView" asp-route-id="@p.Id"
+                               asp-route-username="@User.Identity.Name">
+                                <img src="@image_path" />
+
+                                <span class="title">
+                                    @p.Title
+                                </span>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @for (int i = 1; i < Model.ToList().Count; i++)
+            {
+                Post post = Model.ToList()[i];
+                var image_path2 = $"/Image/{post.Image}";
+                <div class="item">
+                    <div class="carousel-content">
+                        <div style="margin: 0 auto">
+                            <a class="post" asp-controller="Home" asp-action="IncrementPostView" asp-route-id="@post.Id"
+                               asp-route-username="@User.Identity.Name">
+                                <img src="@image_path2" />
+
+                                <span class="title">
+                                    @post.Title
+                                </span>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only"> Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />

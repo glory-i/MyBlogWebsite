@@ -1,0 +1,123 @@
+﻿@model Post
+@{
+
+    ViewBag.Title = Model.Title;
+    ViewBag.Description = Model.Description;
+    ViewBag.Keywords = $"{Model.Tags?.Replace(",", " ")} {Model.Category}";
+}
+@*<h2>@Model.Title</h2>
+
+    @if (!String.IsNullOrEmpty(Model.Image))
+    {
+        var image_path = $"/Image/{Model.Image}";
+        <img src="@image_path" width="100" height="100"/>
+    }
+    <p>@Model.Body</p>
+
+*@
+
+<div class="container">
+    <div class="post no-shadow">
+        @if (!String.IsNullOrEmpty(Model.Image))
+        {
+            var image_path = $"/Image/{Model.Image}";
+            <img src="@image_path" />
+            <span class="title">
+                @Model.Title
+            </span>
+        }
+    </div>
+    
+
+    <div class="post-body">
+        @Html.Raw(Model.Body)
+    </div>
+
+
+    @if (User.Identity.IsAuthenticated)
+    {
+
+<div class="comment-section">
+    <br /><br /><br />
+    @if (!Model.LikedByUser)
+    {
+        <a asp-controller="Home" asp-action="Like" asp-route-id="@Model.Id" asp-route-username="@User.Identity.Name">Like</a>
+
+    }
+    else
+    {
+        <a asp-controller="Home" asp-action="Like" asp-route-id="@Model.Id" asp-route-username="@User.Identity.Name">Remove Like</a>
+
+    }
+    ------
+    @if (!Model.DislikedByUser)
+    {
+        <a asp-controller="Home" asp-action="Dislike" asp-route-id="@Model.Id" asp-route-username="@User.Identity.Name">Dislike</a>
+
+    }
+    else
+    {
+        <a asp-controller="Home" asp-action="Dislike" asp-route-id="@Model.Id" asp-route-username="@User.Identity.Name">Remove Dislike</a>
+
+    }
+    <br /><br />
+
+    <span>@Model.Likes Likes</span>--------<span>@Model.Dislikes Dislikes</span>
+    <br /><br />
+
+    <span>No of times Read: @Model.NoOfViews </span>
+
+
+    @{
+        await Html.RenderPartialAsync("_MainComment", new CommentViewModel { PostId = Model.Id, MainCommentId = 0 });
+
+
+    }
+
+    @if (Model.MainComments.Any())
+    {
+        <b>MAIN COMMENTS</b>
+
+
+
+    @foreach (var c in Model.MainComments)
+    {
+        <h4>
+            @c.Message---------@c.Created-------- @c.BlogUsername  @if (User.IsInRole("Admin"))
+            {
+                <span>-----</span>
+                <span><a asp-controller="Home" asp-action="RemoveMainComment" asp-route-postid="@Model.Id" asp-route-mainid="@c.Id">Delete MainComment</a></span>
+            }
+        </h4>
+        <div style="margin-left: 25px;">
+
+            @{
+                await Html.RenderPartialAsync("_MainComment", new CommentViewModel { PostId = Model.Id, MainCommentId = c.Id });
+            }
+            <b>SUB COMMENTS</b>
+            @foreach (var sc in c.SubComments)
+            {
+                <p>
+                    @sc.Message---------@sc.Created---------@sc.BlogUsername @if (User.IsInRole("Admin"))
+                    {
+                        <span>-----</span>
+                        <span><a asp-controller="Home" asp-action="RemoveSubComment" asp-route-postid="@Model.Id" asp-route-mainid="@c.Id" asp-route-subid="@sc.Id">Delete SubComment</a></span>
+                    }
+                </p>
+            }
+        </div>
+
+      }
+ }
+
+</div>
+
+}
+
+                else
+                {
+                    <div>
+                        <a asp-controller="Auth" asp-action="Login">Sign in to comment on the blog</a>
+                    </div>
+                }
+        </div>

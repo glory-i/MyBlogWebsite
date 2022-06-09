@@ -1,0 +1,118 @@
+﻿body {
+    margin: 0;
+    background-color: lightblue;
+}
+
+a {
+    color: darkred;
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+
+nav {
+    background-color: #f3db55;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+}
+
+    nav a {
+        display: inline-block;
+        padding: 15px;
+    }
+
+.main-img {
+    position: relative;
+    height: 500px;
+    background-image: url('../content/static/pictureforblog.jpg');
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+    .main-img .title {
+        margin-bottom: 1rem;
+    }
+
+.title {
+    position: absolute;
+    color: white;
+    font-size: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-shadow: 0 0 8px black;
+    top: 35%;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    margin: auto;
+}
+
+.post {
+    position: relative;
+    display: flex;
+    height: 400px;
+    margin: 5px;
+    box-shadow: 0 0 5px 0 black;
+}
+
+    .post img {
+        width: 100%;
+        object-fit: cover;
+    }
+
+
+.post-body {
+    margin: -5px 5px 0;
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 20px 5px;
+}
+
+.no-shadow {
+    box-shadow: none;
+}
+
+.pages{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 2rem;
+}
+
+.pages a {
+    padding: 1rem;
+    background-color: grey;
+    color: white;
+    border: 3px solid red;
+    margin: 0 2rem;
+}
+
+.pages a.active{
+    background-color: lightcoral
+}
+
+.sign-in-form{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.sign-in-form div {
+    max-width: 200px;
+    width:100%;
+    margin-bottom: 1rem;
+}
